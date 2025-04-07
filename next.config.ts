@@ -4,10 +4,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "8000", // Cổng Laravel (thường là 8000)
-        pathname: "/storage/**", // Đường dẫn ảnh từ Laravel
+        protocol: "https",
+        hostname: "admin.teabliss.io.vn",
+        port: "2083",
+        pathname: "/storage/**",
         search: "",
       },
     ],
