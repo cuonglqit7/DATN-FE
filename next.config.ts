@@ -2,11 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        domains: ['admin.teabliss.io.vn'],
-      },
-    ],
+    domains: ['admin.teabliss.io.vn'],
   },
   eslint: {
     ignoreDuringBuilds: true,
