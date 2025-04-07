@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "admin.teabliss.io.vn",
-        port: "2083",
+        port: "433",
         pathname: "/storage/**",
         search: "",
       },
