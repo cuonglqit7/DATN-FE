@@ -15,7 +15,6 @@ export function SideBarCheckbox({ category, refetchProducts }: CategoryProps) {
     parseAsArrayOf(parseAsInteger).withDefault([])
   );
 
-  // Đảm bảo selectedCategories là mảng số
   const selectedCategories =
     Array.isArray(categories) && categories !== null ? categories : [];
 

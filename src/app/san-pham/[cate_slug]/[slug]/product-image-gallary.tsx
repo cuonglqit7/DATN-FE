@@ -1,5 +1,5 @@
 "use client";
-import { Share } from "@/components/share/Share";
+
 import { ImagesResType } from "@/schemaValidations/image.schema";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";

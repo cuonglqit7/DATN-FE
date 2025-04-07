@@ -17,6 +17,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "@/contexts/sessionContext";
+
+export interface ApiError {
+  status: number;
+  payload: {
+    errors?: { field: string; message: string }[];
+    message?: string;
+  };
+}
+
 const formSchema = z
   .object({
     name: z
@@ -52,7 +61,6 @@ export default function RegisterForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
   const { setSessionToken } = useSession();
-  // 1. Define your form.
   const form = useForm<RegisterData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,7 +71,6 @@ export default function RegisterForm() {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: RegisterData) {
     try {
       setIsPending(true);
@@ -90,7 +97,7 @@ export default function RegisterForm() {
       });
       setIsPending(false);
       setSessionToken(result.payload.access_token);
-      const resultFromServer = await fetch("/api/auth", {
+      await fetch("/api/auth", {
         method: "POST",
         body: JSON.stringify(result),
         headers: {

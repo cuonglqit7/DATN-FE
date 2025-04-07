@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 
 type FavoriteContextType = {
   favoriteQuantity: number;
-  setFavoriteQuantity: (quantity: number) => void;
+  setFavoriteQuantity: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const FavoriteContext = createContext<FavoriteContextType | undefined>(

@@ -1,13 +1,19 @@
 import ButtonAddToCart from "@/components/addToCart/ButtonAddToCart";
 import { formatPrice } from "@/components/format-price/format-price";
 import ButtonRemoveProductFavorites from "@/components/removeProductFavorites/ButtonRemoveProductFavorites";
-import { Button } from "@/components/ui/button";
-import {
-  getProductFavorites,
-  removeProductFavorite,
-} from "@/server/productFavorites";
+import { getProductFavorites } from "@/server/productFavorites";
 import { getProductById } from "@/server/products";
 import Image from "next/image";
+
+interface Product {
+  id: string;
+  slug: string;
+  product_name: string;
+  price: number;
+  promotion_price: number;
+  images: { url: string }[];
+}
+
 interface ProductFavorites {
   product_id: string;
   user_id: string;
@@ -46,13 +52,10 @@ export default async function page() {
           {productFavorites.length != 0 ? (
             <>
               {productFavorites.map(
-                async (productFavorite: any, index: number) => {
+                async (productFavorite: ProductFavorites, index: number) => {
                   const product = (await getProductById(
                     productFavorite.product.slug
-                  )) as any;
-
-                  console.log(product);
-
+                  )) as Product;
                   return (
                     <li key={index} className="mb-4">
                       <div className="border rounded-lg p-4">

@@ -4,6 +4,7 @@ import ProductFilters, {
   ProductFilterPayload,
 } from "@/components/product-fillter/product-fillter";
 import { ProductsResType } from "@/schemaValidations/products.schema";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -81,7 +82,7 @@ export default function SearchBox() {
                     href={`/san-pham/${product.category.slug}/${product.slug}`}
                     className="p-3 border-b last:border-none flex items-center gap-4 hover:bg-gray-100 cursor-pointer"
                   >
-                    <img
+                    <Image
                       src={product.avatar_url}
                       alt={product.product_name}
                       className="w-12 h-12 object-cover rounded"

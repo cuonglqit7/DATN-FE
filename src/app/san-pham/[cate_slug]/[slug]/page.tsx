@@ -3,22 +3,21 @@ import DetailProduct from "@/app/san-pham/[cate_slug]/[slug]/detail-product";
 import { loadSearchParams } from "@/app/searchParams";
 import { BreadcrumbWithCustomSeparator } from "@/components/breadcrumb/BreadcrumbWithCustomSeparator";
 import { getProduct } from "@/server/product-detail";
-import { SearchParams } from "nuqs";
-
 export default async function Page({
   params,
   searchParams,
 }: {
-  params: { slug: string; cate_slug: string };
-  searchParams: SearchParams;
+  params: Promise<{ slug: string; cate_slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { slug, cate_slug } = await params;
+  const resolvedSearchParams = await searchParams;
   const product: any = await getProduct(slug);
   if (!product) throw new Error("Không tìm thấy sản phẩm");
   metadata.title = "Tea Bliss - " + product.product_name;
 
   const { page_ralated = 1, page_ralated_product = 1 } = await loadSearchParams(
-    searchParams
+    resolvedSearchParams
   );
 
   return (

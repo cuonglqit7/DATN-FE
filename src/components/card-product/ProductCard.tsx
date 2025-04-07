@@ -16,7 +16,6 @@ import ButtonFavorite from "@/components/button-favorite/button-favorite";
 import Link from "next/link";
 import { ShoppingCartIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { FaFire, FaTrophy } from "react-icons/fa";
 import { useCartStore } from "@/state/cart-store";
 import { toast } from "sonner";
 import { RatingStars } from "@/components/RatingStars/RatingStars";

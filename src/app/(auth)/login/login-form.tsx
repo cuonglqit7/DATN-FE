@@ -33,7 +33,6 @@ export default function LoginForm() {
   const redirect = searchParams.get("redirect");
   const { setSessionToken } = useSession();
 
-  // 1. Define your form.
   const form = useForm<LoginData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +42,6 @@ export default function LoginForm() {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: LoginData) {
     try {
       setIsPending(true);
@@ -71,7 +69,7 @@ export default function LoginForm() {
       toast.success("Đăng nhập thành công!");
       setSessionToken(result.payload.access_token);
       setIsPending(false);
-      const resultFromServer = await fetch("/api/auth", {
+      await fetch("/api/auth", {
         method: "POST",
         body: JSON.stringify(result),
         headers: {
@@ -92,7 +90,6 @@ export default function LoginForm() {
         return data;
       });
 
-      // Đăng nhập thành công
       router.push(redirect || "/");
     } catch (error: any) {
       setIsPending(false);
@@ -124,7 +121,6 @@ export default function LoginForm() {
         noValidate={true}
         className="space-y-4 mt-8"
       >
-        {/* Email Field */}
         <FormField
           control={form.control}
           name="email"
@@ -139,7 +135,6 @@ export default function LoginForm() {
           )}
         />
 
-        {/* Password Field */}
         <FormField
           control={form.control}
           name="password"
@@ -184,7 +179,6 @@ export default function LoginForm() {
           )}
         />
 
-        {/* Submit Button */}
         <Button
           type="submit"
           className="mt-2 w-full"

@@ -33,7 +33,7 @@ export const ProductDetailRes = z
     category_id: z.number(),
     avatar_url: z.string(),
     avatar: z.string(),
-    images: ImagesRes,
+    images: z.array(ImagesRes),
     category: CategoriesRes,
     attributes: AttributesRes,
     product_reviews: productReviews,

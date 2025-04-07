@@ -2,24 +2,16 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { AttributesResType } from "@/schemaValidations/attributes.schema";
-import { parseAsString, useQueryState } from "nuqs";
 
 interface CategoryProps {
   attribute: AttributesResType;
-  refetchProducts: () => void;
   keyUnique: number;
 }
 
 export function SideBarAttributeCheckbox({
   attribute,
-  refetchProducts,
   keyUnique,
 }: CategoryProps) {
-  const [attributes, setAttributes] = useQueryState(
-    "attributes_value",
-    parseAsString.withDefault("")
-  );
-
   return (
     <div className="flex items-center space-x-2">
       <Checkbox

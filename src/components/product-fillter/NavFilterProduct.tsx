@@ -1,9 +1,7 @@
 "use client";
 
-import { SideBarAttributeCheckbox } from "@/components/product-fillter/SideBarAttributeCheckbox";
 import { SideBarCheckbox } from "@/components/product-fillter/SideBarCheckbox";
 import { SliderFilterProduct } from "@/components/product-fillter/SliderFilterProduct";
-import { AttributesResType } from "@/schemaValidations/attributes.schema";
 import { CategoriesResType } from "@/schemaValidations/categories.schema";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -12,13 +10,11 @@ import { motion } from "framer-motion";
 interface ProductsFilterProps {
   refetchProducts: () => void;
   categoriesList: CategoriesResType[];
-  attributesList: AttributesResType[];
 }
 
 export default function NavFilterProduct({
   refetchProducts,
   categoriesList,
-  attributesList,
 }: ProductsFilterProps) {
   const [isOpenCategory, setIsOpenCategory] = useState(true);
   const [isOpenPrice, setIsOpenPrice] = useState(true);

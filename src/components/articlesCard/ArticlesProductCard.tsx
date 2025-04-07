@@ -6,23 +6,21 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Image from "next/image";
 import { formatDate } from "@/lib/formatDate";
 
+interface Article {
+  id: number;
+  title: string;
+  thumbnail_url: string;
+  created_at: Date;
+  short_description: string;
+}
+
 interface CardProps {
-  article: any;
+  article: Article;
 }
 
 export function ArticlesProductCard({ article }: CardProps) {

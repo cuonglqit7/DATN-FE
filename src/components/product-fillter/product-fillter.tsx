@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { debounce } from "lodash";
 import {
@@ -30,7 +30,6 @@ export interface ProductFilterProps {
 
 export default function ProductFilters({ submit }: ProductFilterProps) {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const form = useForm<ProductFilter>({
     resolver: zodResolver(formSchema),
@@ -39,16 +38,18 @@ export default function ProductFilters({ submit }: ProductFilterProps) {
     },
   });
 
-  // Cập nhật giá trị form khi URL thay đổi
   useEffect(() => {
     const searchQuery = searchParams.get("q") || "";
     form.setValue("search", searchQuery);
   }, [searchParams]);
 
-  // Khi submit form
   async function onSubmit(values: ProductFilter) {
-    console.log("form", values);
-    await submit?.(values);
+    if (submit) {
+      const payload: ProductFilterPayload = { search: values.search || "" };
+      await submit(payload);
+    } else {
+      console.error("Submit function is not provided.");
+    }
   }
 
   const debounceSearch = debounce(form.handleSubmit(onSubmit), 350);

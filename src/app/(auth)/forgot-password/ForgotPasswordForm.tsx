@@ -12,11 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "@/contexts/sessionContext";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Tài khoản đăng nhập bằng email" }),
@@ -26,10 +23,6 @@ type LoginData = z.infer<typeof formSchema>;
 
 export default function ForgotPasswordForm() {
   const [isPending, setIsPending] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
-  const { setSessionToken } = useSession();
 
   // 1. Define your form.
   const form = useForm<LoginData>({

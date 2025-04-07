@@ -46,8 +46,8 @@ export function SliderFilterProduct({
     <div className="mt-2">
       <Slider
         defaultValue={[0, 10000000]}
-        max={10000000}
-        min={0}
+        max={maxPrice}
+        min={minPrice}
         step={100000}
         value={priceRange}
         onValueChange={handleValueChange}

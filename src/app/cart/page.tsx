@@ -3,35 +3,35 @@
 import DialogCheckout from "@/app/cart/dialog-checkout";
 import { formatPrice } from "@/components/format-price/format-price";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/contexts/sessionContext";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useCartStore } from "@/state/cart-store";
 
+interface SelectedItems {
+  [key: number]: boolean;
+}
+
 export default function CartPage() {
   const [checkoutDialog, setCheckoutDialog] = useState(false);
   const { list: cartItems, updateQuantity, deleteCartItem } = useCartStore();
-  const [loading, setLoading] = useState(false);
-  const [selectedItems, setSelectedItems] = useState({});
+  const [loading] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
-  // Khởi tạo trạng thái checkbox khi cartItems thay đổi
   useEffect(() => {
-    const initialSelected: any = {};
+    const initialSelected: SelectedItems = {};
     cartItems.forEach((item) => {
-      initialSelected[item.products.id] = false; // Mặc định không chọn
+      initialSelected[item.products.id] = false;
     });
     setSelectedItems(initialSelected);
   }, [cartItems]);
 
-  // Kiểm tra xem tất cả sản phẩm đã được chọn hay chưa
   const allSelected =
     cartItems.length > 0 &&
     cartItems.every((item) => selectedItems[item.products.id]);
 
-  // Hàm xử lý khi checkbox "Chọn tất cả" thay đổi
   const handleSelectAllChange = () => {
     const newSelected: any = {};
     cartItems.forEach((item) => {
@@ -57,7 +57,6 @@ export default function CartPage() {
     return sum;
   }, 0);
 
-  // Lọc các sản phẩm được chọn để truyền vào DialogCheckout
   const itemsToCheckout = cartItems.filter(
     (item) => selectedItems[item.products.id]
   );
@@ -66,7 +65,6 @@ export default function CartPage() {
     <div className="max-w-screen-xl mx-auto mt-40">
       <h1 className="text-3xl font-bold mb-6">Giỏ hàng</h1>
       <div className="flex justify-between">
-        {/* Cart Table */}
         <table className="w-3/4 text-sm text-left rtl:text-right dark:text-gray-400 rounded">
           <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr className="bg-gray-200 text-left">

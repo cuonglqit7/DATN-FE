@@ -1,6 +1,5 @@
 import { metadata } from "@/app/layout";
 import ProductCard from "@/components/card-product/ProductCard";
-import ProductCart from "@/components/card-product/ProductCard";
 import { CarouselPlugin } from "@/components/carousel/carousel";
 import { CarouselSize } from "@/components/carousel/CarouselSize";
 import Image from "next/image";

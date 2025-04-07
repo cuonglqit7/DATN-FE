@@ -1,4 +1,4 @@
-import z, { boolean, number } from "zod";
+import z from "zod";
 
 export const AttributesRes = z
   .object({

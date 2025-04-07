@@ -6,7 +6,6 @@ import {
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
 } from "@/components/ui/pagination";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { parseAsInteger, useQueryState } from "nuqs";

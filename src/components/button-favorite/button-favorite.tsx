@@ -15,11 +15,11 @@ export default function ButtonFavorite({
   productName,
 }: FavoriteButtonProps) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { favoriteQuantity, setFavoriteQuantity } = useFavoriteContext();
+  const { setFavoriteQuantity } = useFavoriteContext();
   const { sessionToken } = useSession();
 
   useEffect(() => {
-    if (!sessionToken) return; // Tránh gọi API khi chưa có token
+    if (!sessionToken) return;
 
     const fetchFavorites = async () => {
       try {

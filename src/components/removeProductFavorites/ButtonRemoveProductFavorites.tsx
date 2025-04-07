@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "@/contexts/sessionContext";
-import { removeProductFavorite } from "@/server/productFavorites";
 
 interface RemoveProductFavoriteProps {
   id: string;

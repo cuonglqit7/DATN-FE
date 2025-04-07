@@ -7,10 +7,9 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import Image from "next/image";
 
 export function CarouselPlugin() {
   const plugin = React.useRef(
@@ -34,7 +33,7 @@ export function CarouselPlugin() {
               <Card>
                 <CardContent className="p-0">
                   <Link href={"/san-pham"}>
-                    <img
+                    <Image
                       src={`images/${banner}`}
                       alt={banner}
                       className="max-h-[500px] w-full object-fill"

@@ -6,7 +6,6 @@ import { PaginationDemo } from "@/components/pagination/Pagination";
 import NavFilterProduct from "@/components/product-fillter/NavFilterProduct";
 import ProductsFilter from "@/components/product-fillter/ProductsFilter";
 import { ProductsResType } from "@/schemaValidations/products.schema";
-import { getAttributes } from "@/server/attributes";
 import { getCategories } from "@/server/categories";
 import { getProducts } from "@/server/products";
 import { revalidateTag } from "next/cache";
@@ -32,7 +31,6 @@ export default async function page({ searchParams }: PageProps) {
   });
 
   const categories: any = await getCategories();
-  const attributes: any = await getAttributes();
 
   const data: ProductsResType[] = products ? products.data : [];
   const totalPage = products ? products.last_page : 0;
@@ -50,7 +48,6 @@ export default async function page({ searchParams }: PageProps) {
           <NavFilterProduct
             refetchProducts={refetchProducts}
             categoriesList={categories.data}
-            attributesList={attributes.data}
           />
         </div>
 

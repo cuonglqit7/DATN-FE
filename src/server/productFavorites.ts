@@ -23,7 +23,7 @@ export async function removeProductFavorite(id: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get("sessionToken");
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/favorites`, {
+  await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/favorites`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -33,6 +33,4 @@ export async function removeProductFavorite(id: string) {
       product_id: id,
     }),
   });
-
-  const payload = await res.json();
 }

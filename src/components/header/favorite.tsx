@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useFavoriteContext } from "@/contexts/FavoriteProvider";
 import { useSession } from "@/contexts/sessionContext";
 
@@ -34,7 +34,7 @@ export default function Favorite() {
     };
 
     fetchFavorites();
-  }, [setFavoriteQuantity]);
+  }, [favoriteQuantity]);
 
   return (
     <div>

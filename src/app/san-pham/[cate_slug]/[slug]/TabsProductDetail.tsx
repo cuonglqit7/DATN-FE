@@ -1,29 +1,21 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ProductDetailResType } from "@/schemaValidations/detailproduct.schema";
-import { useEffect, useState } from "react";
-import { getProduct } from "@/server/user";
+import { getProduct } from "@/server/product-detail";
 import { formatDate } from "@/lib/formatDate";
 import { RatingStars } from "@/components/RatingStars/RatingStars";
 import { formatRating } from "@/lib/formatRating";
-interface TabsDetailProductProps {
-  product: ProductDetailResType;
-}
 
 export function TabsProductDetail({ product }: any) {
   const attributes = product.attributes;
-  const product_reviews = product.product_reviews;
 
   const sortedReviews = [...product.product_reviews].sort(
     (a, b) => b.rating - a.rating
