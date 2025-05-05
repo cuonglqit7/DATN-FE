@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
       {
         protocol: "http",
         hostname: "127.0.0.1",
-        port: "8000", // Cổng Laravel (thường là 8000)
-        pathname: "/storage/**", // Đường dẫn ảnh từ Laravel
+        port: "8000",
+        pathname: "/storage/**",
         search: "",
       },
     ],

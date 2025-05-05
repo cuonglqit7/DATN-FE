@@ -37,7 +37,7 @@ export default async function page() {
   const productFavorites = payloadProductFavorites.data as ProductFavorites[];
 
   return (
-    <div className="bg-white shadow-md rounded-md p-6">
+    <div className="bg-white shadow-md rounded-md p-4">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">
         Sản phẩm yêu thích
       </h2>

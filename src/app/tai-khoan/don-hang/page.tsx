@@ -26,6 +26,9 @@ export default async function page() {
 
   return (
     <div className="bg-white shadow-md rounded-md p-4">
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">
+        Đơn hàng đã đặt
+      </h2>
       <TabsOrders
         ordersProcess={ordersProcess}
         ordersCompleted={ordersCompleted}

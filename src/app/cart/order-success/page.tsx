@@ -11,39 +11,37 @@ export default function CheckoutSuccess() {
   const searchParams = useSearchParams();
   const orderCode = searchParams.get("orderCode");
 
-  console.log("Order Code:", orderCode); // Debugging
-
-  const handleContinueShopping = () => {
-    router.push("/");
-  };
-
   return (
-    <div className="max-w-screen-xl mx-auto mt-40 flex justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center mt-5">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className="flex flex-col items-center gap-3 mt-6">
+          <CheckCircle className="w-16 h-16 text-green-500" />
+          <CardTitle className="text-2xl font-bold text-center text-green-600">
             Đặt hàng thành công!
           </CardTitle>
         </CardHeader>
-        <CardContent className="text-center space-y-6">
-          <div className="flex justify-center">
-            <CheckCircle className="w-16 h-16 text-green-500" />
-          </div>
+        <CardContent className="text-center space-y-6 px-6 pb-8">
           <p className="text-gray-600">
-            Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn{" "}
-            <span className="font-semibold">
-              {orderCode || "đang được xử lý"}
-            </span>{" "}
-            đã được ghi nhận và sẽ sớm được xử lý.
+            Cảm ơn bạn đã đặt hàng.
+            {orderCode && (
+              <>
+                <br />
+                Mã đơn hàng của bạn là:{" "}
+                <span className="font-semibold text-gray-800">{orderCode}</span>
+              </>
+            )}
+            {!orderCode && (
+              <> Đơn hàng của bạn đang được xử lý và sẽ sớm được xác nhận.</>
+            )}
           </p>
-          <div className="flex gap-2">
-            <Link href={"/san-pham"}>
-              <Button className="w-1/2 bg-green-500 hover:bg-green-600 text-white mb-5 cursor-pointer">
+          <div className="flex justify-center gap-3">
+            <Link href="/san-pham" passHref>
+              <Button className="flex-1 bg-green-500 hover:bg-green-600 text-white cursor-pointer">
                 Tiếp tục mua sắm
               </Button>
             </Link>
-            <Link href={"/tai-khoan/don-hang"}>
-              <Button className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white mb-5 cursor-pointer">
+            <Link href="/tai-khoan/don-hang" passHref>
+              <Button className="flex-1 bg-rose-500 hover:bg-rose-600 text-white cursor-pointer">
                 Xem đơn hàng
               </Button>
             </Link>

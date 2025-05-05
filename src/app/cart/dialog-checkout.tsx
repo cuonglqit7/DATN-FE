@@ -25,6 +25,7 @@ import { useSession } from "@/contexts/sessionContext";
 import { useRouter } from "next/navigation";
 import { TCartItem, useCartStore } from "@/state/cart-store";
 import { toast } from "sonner";
+import { formatPrice } from "@/components/format-price/format-price";
 
 const checkoutFormSchema = z.object({
   recipient_name: z
@@ -57,6 +58,10 @@ export default function DialogCheckout(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedItems: TCartItem[];
+  totalPrice: number;
+  vatAmount: number;
+  discountAmount: number;
+  discountCode: string;
 }) {
   const form = useForm<z.infer<typeof checkoutFormSchema>>({
     resolver: zodResolver(checkoutFormSchema),
@@ -72,10 +77,18 @@ export default function DialogCheckout(props: {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { sessionToken } = useSession();
-  const { reset, deleteCartItem } = useCartStore();
+  const { deleteCartItem } = useCartStore();
   const router = useRouter();
 
-  // Hàm tạo mã đơn hàng
+  // Calculate subtotal
+  const subtotal = props.selectedItems.reduce(
+    (sum, item) =>
+      sum +
+      (item.products.promotion_price ?? item.products.price) * item.quantity,
+    0
+  );
+
+  // Generate order code
   const generateOrderCode = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let orderCode = "";
@@ -86,7 +99,7 @@ export default function DialogCheckout(props: {
     return orderCode;
   };
 
-  // Hàm tạo mã không trùng với giới hạn số lần thử
+  // Generate unique order code with retry limit
   const generateUniqueOrderCode = async (maxAttempts = 5) => {
     let attempts = 0;
     let code;
@@ -118,8 +131,37 @@ export default function DialogCheckout(props: {
     return code;
   };
 
+  // Fetch discount ID for the given discount code
+  const getDiscountId = async (discountCode: string) => {
+    if (!discountCode) return null;
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/discounts/check`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionToken}`,
+          },
+          body: JSON.stringify({ code: discountCode }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Không thể xác thực mã giảm giá");
+      }
+
+      return data.data.id; // Return the discount ID
+    } catch (error: any) {
+      throw new Error("Lỗi khi lấy ID mã giảm giá: " + error.message);
+    }
+  };
+
   const onSubmit = async (values: z.infer<typeof checkoutFormSchema>) => {
-    if (isSubmitted) return; // Ngăn submit nhiều lần
+    if (isSubmitted) return; // Prevent multiple submissions
     setIsSubmitted(true);
     setLoading(true);
 
@@ -133,20 +175,16 @@ export default function DialogCheckout(props: {
         throw new Error("Giỏ hàng trống. Vui lòng chọn sản phẩm.");
       }
 
-      const amount = props.selectedItems.reduce(
-        (sum, item) =>
-          sum +
-          (item.products.promotion_price ?? item.products.price) *
-            item.quantity,
-        0
-      );
-
       const uniqueCode = await generateUniqueOrderCode();
+
+      // Fetch discount ID if discountCode is provided
+      const discountId = await getDiscountId(props.discountCode);
 
       const orderData = {
         ...values,
         code: uniqueCode,
-        amount,
+        amount: props.totalPrice,
+        discounts: discountId ? [{ discount_id: discountId }] : [],
         items: props.selectedItems.map((item) => ({
           id: String(item.products.id),
           quantity: item.quantity,
@@ -173,7 +211,7 @@ export default function DialogCheckout(props: {
         }
 
         router.push(momoPayload.payUrl);
-        props.selectedItems.map((item) => deleteCartItem(item.products.id));
+        props.selectedItems.forEach((item) => deleteCartItem(item.products.id));
         return;
       }
 
@@ -194,17 +232,23 @@ export default function DialogCheckout(props: {
         if (res.status === 401) {
           throw new Error("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
         }
-        if (res.status === 422 || res.status === 400) {
+        if (res.status === 422) {
           throw new Error(
             JSON.stringify(payload.errors) || "Dữ liệu không hợp lệ"
           );
+        }
+        if (res.status === 400) {
+          const stockErrors = payload.errors
+            ? Object.values(payload.errors).join("; ")
+            : "Một số sản phẩm không đủ hàng";
+          throw new Error(stockErrors);
         }
         throw new Error(payload.error || "Không thể tạo đơn hàng");
       }
 
       const orderCode = payload.data.code;
 
-      props.selectedItems.map((item) => deleteCartItem(item.products.id));
+      props.selectedItems.forEach((item) => deleteCartItem(item.products.id));
       props.onOpenChange(false);
       form.reset();
       toast.success("Đặt hàng thành công.");
@@ -221,7 +265,7 @@ export default function DialogCheckout(props: {
       toast.error("Đặt hàng thất bại: " + error.message);
     } finally {
       setLoading(false);
-      setIsSubmitted(false); // Mở khóa sau khi hoàn tất
+      setIsSubmitted(false); // Unlock after completion
     }
   };
 
@@ -233,6 +277,35 @@ export default function DialogCheckout(props: {
             <DialogHeader>
               <DialogTitle>Thông tin đơn hàng</DialogTitle>
             </DialogHeader>
+
+            {/* Price Breakdown */}
+            <div className="border p-4 rounded-md mb-4">
+              <h3 className="font-semibold mb-2">Chi tiết thanh toán</h3>
+              <div className="flex justify-between">
+                <span>Tạm tính:</span>
+                <span>{formatPrice(subtotal)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Thuế VAT ({(0.1 * 100).toFixed(0)}%):</span>
+                <span>{formatPrice(props.vatAmount)}</span>
+              </div>
+              {props.discountAmount > 0 && (
+                <div className="flex justify-between text-green-500">
+                  <span>
+                    Giảm giá{" "}
+                    {props.discountCode ? `(${props.discountCode})` : ""}:
+                  </span>
+                  <span>-{formatPrice(props.discountAmount)}</span>
+                </div>
+              )}
+              <div className="flex justify-between font-semibold mt-2">
+                <span>Tổng tiền:</span>
+                <span className="text-green-500">
+                  {formatPrice(props.totalPrice)}
+                </span>
+              </div>
+            </div>
+
             <FormField
               control={form.control}
               name="recipient_name"

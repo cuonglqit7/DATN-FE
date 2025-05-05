@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 export async function getOrders() {
   const cookieStore = await cookies();
   const token = cookieStore.get("sessionToken")?.value;
-
   if (!token) {
     return;
   }
@@ -16,6 +15,5 @@ export async function getOrders() {
   });
 
   const payload = await res.json();
-
   return payload;
 }

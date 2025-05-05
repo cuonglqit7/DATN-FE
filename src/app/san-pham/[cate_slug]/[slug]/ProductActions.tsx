@@ -35,7 +35,12 @@ export default function ProductActions({
       </div>
       <div className="flex gap-3">
         <AddToCart quantity={quantity} product={product} />
-        <button className="flex-1 bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition cursor-pointer">
+        <button
+          className="flex-1 py-2 px-4 rounded-lg transition 
+          bg-gray-500 text-white 
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-500"
+          disabled
+        >
           Thanh toán ngay
         </button>
       </div>
