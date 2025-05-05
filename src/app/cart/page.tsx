@@ -57,7 +57,6 @@ export default function CartPage() {
     return sum;
   }, 0);
 
-  // Lọc các sản phẩm được chọn để truyền vào DialogCheckout
   const itemsToCheckout = cartItems.filter(
     (item) => selectedItems[item.products.id]
   );

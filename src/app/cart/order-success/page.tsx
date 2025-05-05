@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function CheckoutSuccess() {
@@ -36,20 +37,16 @@ export default function CheckoutSuccess() {
             đã được ghi nhận và sẽ sớm được xử lý.
           </p>
           <div className="flex gap-2">
-            <Button
-              onClick={handleContinueShopping}
-              className="w-1/2 bg-green-500 hover:bg-green-600 text-white mb-5 cursor-pointer"
-            >
-              Tiếp tục mua sắm
-            </Button>
-            <Button
-              onClick={() => {
-                router.push("/orders");
-              }}
-              className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white mb-5 cursor-pointer"
-            >
-              Xem đơn hàng
-            </Button>
+            <Link href={"/san-pham"}>
+              <Button className="w-1/2 bg-green-500 hover:bg-green-600 text-white mb-5 cursor-pointer">
+                Tiếp tục mua sắm
+              </Button>
+            </Link>
+            <Link href={"/tai-khoan/don-hang"}>
+              <Button className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white mb-5 cursor-pointer">
+                Xem đơn hàng
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>

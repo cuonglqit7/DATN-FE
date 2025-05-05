@@ -19,7 +19,7 @@ export default function ButtonFavorite({
   const { sessionToken } = useSession();
 
   useEffect(() => {
-    if (!sessionToken) return; // Tránh gọi API khi chưa có token
+    if (!sessionToken) return;
 
     const fetchFavorites = async () => {
       try {

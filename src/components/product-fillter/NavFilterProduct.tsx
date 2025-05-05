@@ -12,13 +12,11 @@ import { motion } from "framer-motion";
 interface ProductsFilterProps {
   refetchProducts: () => void;
   categoriesList: CategoriesResType[];
-  attributesList: AttributesResType[];
 }
 
 export default function NavFilterProduct({
   refetchProducts,
   categoriesList,
-  attributesList,
 }: ProductsFilterProps) {
   const [isOpenCategory, setIsOpenCategory] = useState(true);
   const [isOpenPrice, setIsOpenPrice] = useState(true);

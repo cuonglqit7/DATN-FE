@@ -1,10 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -12,8 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductDetailResType } from "@/schemaValidations/detailproduct.schema";
-import { useEffect, useState } from "react";
-import { getProduct } from "@/server/user";
+import { getUser } from "@/server/user";
 import { formatDate } from "@/lib/formatDate";
 import { RatingStars } from "@/components/RatingStars/RatingStars";
 import { formatRating } from "@/lib/formatRating";
@@ -89,7 +86,7 @@ export function TabsProductDetail({ product }: any) {
             <div>
               <ul>
                 {sortedReviews.map(async (review: any, index: number) => {
-                  const res: any = await getProduct(review.user_id);
+                  const res: any = await getUser(review.user_id);
 
                   const user = res.data;
 

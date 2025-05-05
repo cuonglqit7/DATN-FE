@@ -33,8 +33,8 @@ export default async function DetailProduct({
     page_ralated,
     category_id,
   });
-  const productsRe = productsRelated.data.data;
 
+  const productsRe = productsRelated.data.data;
   const product_id = product.id;
 
   const articleRelate: any = await getArticleRelate({
@@ -43,8 +43,6 @@ export default async function DetailProduct({
   });
 
   const articleRe = articleRelate.data.data;
-
-  console.log(articleRe);
 
   async function refetchProducts() {
     "use server";
@@ -55,6 +53,7 @@ export default async function DetailProduct({
     "use server";
     revalidateTag("articlesProduct");
   }
+
   const isNewProduct = () => {
     if (!product.created_at) return false;
     const createdDate = new Date(product.created_at);
@@ -78,7 +77,7 @@ export default async function DetailProduct({
             <div className="mb-4">
               <h1 className="text-xl font-bold text-gray-800">
                 {isNewProduct() && (
-                  <Badge className="absolute top-0 left-0 bg-green-500 text-white">
+                  <Badge className="absolute top-0 left-0 b</h1>g-green-500 text-white">
                     Mới <FaStar />
                   </Badge>
                 )}

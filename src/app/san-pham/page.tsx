@@ -50,7 +50,6 @@ export default async function page({ searchParams }: PageProps) {
           <NavFilterProduct
             refetchProducts={refetchProducts}
             categoriesList={categories.data}
-            attributesList={attributes.data}
           />
         </div>
 

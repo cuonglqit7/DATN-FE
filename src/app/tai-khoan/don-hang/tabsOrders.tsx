@@ -1,3 +1,4 @@
+import RePayment from "@/app/tai-khoan/don-hang/RePayment";
 import { formatPrice } from "@/components/format-price/format-price";
 import { Button } from "@/components/ui/button";
 import {
@@ -108,12 +109,7 @@ export function TabsOrders({
                               {order.payment_method == "cod" ? (
                                 ""
                               ) : (
-                                <Button
-                                  variant={"outline"}
-                                  className="cursor-pointer bg-green-400 hover:bg-green-500 hover:text-white transition-all"
-                                >
-                                  Thanh toán ngay
-                                </Button>
+                                <RePayment orderId={order.id} />
                               )}
                             </>
                           ) : (
